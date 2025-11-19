@@ -15,9 +15,9 @@ const Index = () => {
             <span className="text-xl font-bold">NutriAI</span>
           </div>
           <div className="hidden md:flex items-center gap-6">
-            <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition">Features</a>
-            <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition">How It Works</a>
-            <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition">Pricing</a>
+            <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition" onClick={(e) => { e.preventDefault(); document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' }); }}>Features</a>
+            <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition" onClick={(e) => { e.preventDefault(); document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }); }}>How It Works</a>
+            <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition" onClick={(e) => { e.preventDefault(); document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' }); }}>Pricing</a>
           </div>
           <div className="flex items-center gap-3">
             <Link to="/auth">
@@ -125,23 +125,71 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Pricing Section */}
+      <section id="pricing" className="py-20 px-4">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Choose the plan that fits your health journey
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              { name: "Free", price: "$0", features: ["Basic meal plans", "Calorie tracking", "AI chatbot", "Mobile app"] },
+              { name: "Pro", price: "$29", features: ["Everything in Free", "Custom meal plans", "Progress analytics", "Priority support", "Meal photo analysis"], popular: true },
+              { name: "Premium", price: "$79", features: ["Everything in Pro", "Video consultations", "Personal dietitian", "Advanced analytics", "Unlimited AI features"] }
+            ].map((plan, i) => (
+              <Card key={i} className={`p-8 relative ${plan.popular ? 'border-primary shadow-glow' : ''}`}>
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium">
+                    Most Popular
+                  </div>
+                )}
+                <div className="text-center mb-6">
+                  <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
+                  <div className="flex items-baseline justify-center gap-1">
+                    <span className="text-4xl font-bold">{plan.price}</span>
+                    <span className="text-muted-foreground">/month</span>
+                  </div>
+                </div>
+                <ul className="space-y-3 mb-8">
+                  {plan.features.map((feature, j) => (
+                    <li key={j} className="flex items-center gap-2">
+                      <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center">
+                        <ArrowRight className="w-3 h-3 text-primary" />
+                      </div>
+                      <span className="text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link to="/auth" className="block">
+                  <Button className="w-full" variant={plan.popular ? "default" : "outline"}>
+                    Get Started
+                  </Button>
+                </Link>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <Card className="p-12 text-center bg-gradient-primary border-0">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Ready to Transform Your Health?
-            </h2>
-            <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-              Join thousands who are achieving their nutrition goals with AI-powered guidance
+      <section className="py-20 px-4 bg-gradient-card">
+        <div className="container mx-auto">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-4xl font-bold mb-6">Ready to Transform Your Health?</h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Join thousands of users already achieving their nutrition goals with AI-powered guidance
             </p>
             <Link to="/auth">
-              <Button size="lg" variant="secondary" className="shadow-lg">
-                Get Started Free
+              <Button size="lg" className="shadow-lg">
+                Start Your Free Trial
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
-          </Card>
+          </div>
         </div>
       </section>
 
