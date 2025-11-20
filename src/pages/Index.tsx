@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Sparkles, Activity, Brain, Calendar, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, Sparkles, Activity, Brain, Calendar, TrendingUp, Users, MessageCircle, Dumbbell, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
+  const [showChatbot, setShowChatbot] = useState(false);
+
   return (
     <div className="min-h-screen">
       {/* Navigation */}
@@ -17,9 +19,16 @@ const Index = () => {
           <div className="hidden md:flex items-center gap-6">
             <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition" onClick={(e) => { e.preventDefault(); document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' }); }}>Features</a>
             <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition" onClick={(e) => { e.preventDefault(); document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }); }}>How It Works</a>
+            <a href="#workouts" className="text-sm text-muted-foreground hover:text-foreground transition" onClick={(e) => { e.preventDefault(); document.getElementById('workouts')?.scrollIntoView({ behavior: 'smooth' }); }}>Workouts</a>
             <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition" onClick={(e) => { e.preventDefault(); document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' }); }}>Pricing</a>
           </div>
           <div className="flex items-center gap-3">
+            <Link to="/features/ai-chatbot">
+              <Button variant="outline" size="sm" className="gap-2">
+                <MessageCircle className="w-4 h-4" />
+                AI Chat
+              </Button>
+            </Link>
             <Link to="/auth">
               <Button variant="ghost" size="sm">Sign In</Button>
             </Link>
@@ -269,6 +278,30 @@ const steps = [
   {
     title: "Track & Achieve",
     description: "Log your meals, track progress, chat with AI, and reach your goals with data-driven insights and predictions."
+  }
+];
+
+const workoutCategories = [
+  {
+    title: "Home Workouts",
+    description: "Effective bodyweight exercises you can do anywhere, anytime. Perfect for all fitness levels.",
+    tags: ["Beginner Friendly", "No Equipment", "Quick Sessions"],
+    videos: 45,
+    image: "/workout-home.jpg"
+  },
+  {
+    title: "Gym Workouts",
+    description: "Professional strength training programs for men and women. Build muscle and increase strength.",
+    tags: ["Muscle Building", "Strength Training", "Advanced"],
+    videos: 62,
+    image: "/workout-gym.jpg"
+  },
+  {
+    title: "Yoga & Mindfulness",
+    description: "Improve flexibility, reduce stress, and find inner peace with guided yoga sessions for all ages.",
+    tags: ["Flexibility", "Stress Relief", "All Ages"],
+    videos: 38,
+    image: "/workout-yoga.jpg"
   }
 ];
 
