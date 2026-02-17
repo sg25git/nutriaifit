@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const MealPlanning = () => {
   const { toast } = useToast();
+  const [showPlan, setShowPlan] = useState(false);
   const [formData, setFormData] = useState({
     mealType: "",
     cuisine: "",
@@ -26,11 +27,18 @@ const MealPlanning = () => {
       });
       return;
     }
+    setShowPlan(true);
+  };
 
-    toast({
-      title: "Meal Plan Generated!",
-      description: "Your personalized AI meal plan is ready. Check your dashboard.",
-    });
+  const demoMealPlan = {
+    title: `${formData.cuisine?.charAt(0).toUpperCase()}${formData.cuisine?.slice(1)} ${formData.mealType?.charAt(0).toUpperCase()}${formData.mealType?.slice(1)} Plan`,
+    targetCalories: formData.calories || "500",
+    meals: [
+      { name: "Grilled Chicken Salad", calories: 350, protein: "30g", carbs: "15g", fat: "18g", time: "15 min", ingredients: ["Chicken breast", "Mixed greens", "Cherry tomatoes", "Olive oil", "Lemon"] },
+      { name: "Quinoa & Veggie Bowl", calories: 420, protein: "14g", carbs: "55g", fat: "16g", time: "20 min", ingredients: ["Quinoa", "Bell peppers", "Chickpeas", "Avocado", "Tahini dressing"] },
+      { name: "Salmon with Steamed Broccoli", calories: 480, protein: "35g", carbs: "12g", fat: "32g", time: "25 min", ingredients: ["Salmon fillet", "Broccoli", "Brown rice", "Soy sauce", "Ginger"] },
+      { name: "Greek Yogurt Parfait", calories: 280, protein: "18g", carbs: "35g", fat: "8g", time: "5 min", ingredients: ["Greek yogurt", "Granola", "Mixed berries", "Honey", "Chia seeds"] },
+    ],
   };
 
   return (
@@ -127,6 +135,42 @@ const MealPlanning = () => {
               Generate AI Meal Plan
             </Button>
           </Card>
+
+          {/* Generated Meal Plan Results */}
+          {showPlan && (
+            <div className="mt-10 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="text-center">
+                <h2 className="text-3xl font-bold mb-2">🍽️ {demoMealPlan.title}</h2>
+                <p className="text-muted-foreground">Target: {demoMealPlan.targetCalories} kcal{formData.dietaryRestrictions ? ` • ${formData.dietaryRestrictions}` : ""}</p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                {demoMealPlan.meals.map((meal, i) => (
+                  <Card key={i} className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-lg font-bold">{meal.name}</h3>
+                      <span className="text-sm text-muted-foreground flex items-center gap-1"><Clock className="w-4 h-4" />{meal.time}</span>
+                    </div>
+                    <div className="flex gap-3 mb-4 flex-wrap">
+                      <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">{meal.calories} kcal</span>
+                      <span className="text-xs bg-green-500/10 text-green-600 px-2 py-1 rounded-full">P: {meal.protein}</span>
+                      <span className="text-xs bg-yellow-500/10 text-yellow-600 px-2 py-1 rounded-full">C: {meal.carbs}</span>
+                      <span className="text-xs bg-red-500/10 text-red-600 px-2 py-1 rounded-full">F: {meal.fat}</span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium mb-1">Ingredients:</p>
+                      <p className="text-sm text-muted-foreground">{meal.ingredients.join(", ")}</p>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+
+              <Card className="p-6 text-center">
+                <p className="text-sm text-muted-foreground mb-2">Total Estimated Calories</p>
+                <p className="text-3xl font-bold text-primary">{demoMealPlan.meals.reduce((sum, m) => sum + m.calories, 0)} kcal</p>
+              </Card>
+            </div>
+          )}
 
           {/* Features Grid */}
           <div className="grid md:grid-cols-3 gap-8 mt-16">
